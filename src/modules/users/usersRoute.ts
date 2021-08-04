@@ -1,8 +1,9 @@
+import { DoneFuncWithErrOrRes, FastifyInstance } from 'fastify';
 import { addUser } from './usersService';
-import { addUserSchema } from './usersSchema';
+import { addUserOptions } from './usersSchema';
 
-export const usersRoute = (fastify, _, done) => {
-  fastify.post('/', addUserSchema, addUser);
+export const usersRoute = (fastify: FastifyInstance, _: unknown, done: DoneFuncWithErrOrRes) => {
+  fastify.post('/', addUserOptions, addUser);
 
   done();
 };
