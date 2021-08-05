@@ -1,27 +1,19 @@
-import { FastifyReply } from 'fastify';
 import * as bcrypt from 'bcrypt';
-import usersDAL from './usersDAL';
-import { AddUserRequest } from './usersTypes';
+import { Prisma } from '@prisma/client';
+import usersRepository from './usersRepository';
 
-export const addUser = async (req: AddUserRequest, reply: FastifyReply) => {
-  const { username, password, email } = req.body;
-  if (
-    (await usersDAL.findOne({ username })) ||
-    (await usersDAL.findOne({ email }))
-  ) {
-    reply.status(409).send({
-      statusCode: 409,
-      message: 'Username or e-mail already exists.',
-    });
-  }
-  const createdUser = await usersDAL.addUser({
+export const addUser = async (userData: Prisma.UserCreateInput) => {
+  const { username, password, email } = userData;
+
+  return usersRepository.add({
     username,
     email,
     password: await bcrypt.hash(password, 10),
   });
-  if (createdUser) {
-    reply.status(201).send({
-      message: 'User successfully created.',
-    });
-  }
 };
+
+export const usernameExists = async (username: string) =>
+  !!(await usersRepository.findByUsername(username));
+
+export const emailExists = async (email: string) =>
+  !!(await usersRepository.findByEmail(email));

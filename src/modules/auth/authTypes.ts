@@ -1,6 +1,6 @@
 import { FastifyRequest } from 'fastify';
 
-export type AddUserRequest = FastifyRequest<{
+export type RegisterRequest = FastifyRequest<{
   Body: {
     username: string;
     email: string;

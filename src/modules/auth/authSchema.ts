@@ -1,4 +1,4 @@
-export const addUserOptions = {
+export const registerOptions = {
   schema: {
     description: 'Add user',
     summary: 'add new user',

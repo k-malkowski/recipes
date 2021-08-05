@@ -1,7 +1,7 @@
 import fastify from 'fastify';
 import fastifySwagger from 'fastify-swagger';
 import fastifyCors from 'fastify-cors';
-import { usersRoute } from './modules/users/usersRoute';
+import { authRoute } from './modules/auth/authRoute';
 
 export const build = (opts = {}) => {
   const app = fastify(opts);
@@ -27,6 +27,6 @@ export const build = (opts = {}) => {
     exposeRoute: true,
   });
   app.register(fastifyCors, { origin: false });
-  app.register(usersRoute, { prefix: '/api/v1/users' });
+  app.register(authRoute, { prefix: '/api/v1/auth' });
   return app;
 };
