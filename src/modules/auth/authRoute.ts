@@ -1,6 +1,6 @@
 import { FastifyInstance, FastifyPluginCallback } from 'fastify';
-import { registerOptions } from './authSchema';
-import { register } from './authService';
+import { loginOptions, registerOptions } from './authSchema';
+import { login, register } from './authService';
 
 export const authRoute: FastifyPluginCallback = (
   fastify: FastifyInstance,
@@ -8,6 +8,7 @@ export const authRoute: FastifyPluginCallback = (
   done
 ) => {
   fastify.post('/register', registerOptions, register);
+  fastify.post('/login', loginOptions, login);
 
   done();
 };

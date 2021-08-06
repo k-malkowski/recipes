@@ -1,6 +1,7 @@
 import fastify from 'fastify';
 import fastifySwagger from 'fastify-swagger';
 import fastifyCors from 'fastify-cors';
+import fastifyJWT from 'fastify-jwt';
 import { authRoute } from './modules/auth/authRoute';
 
 export const build = (opts = {}) => {
@@ -27,6 +28,9 @@ export const build = (opts = {}) => {
     exposeRoute: true,
   });
   app.register(fastifyCors, { origin: false });
+  app.register(fastifyJWT, {
+    secret: 'supersecret',
+  });
   app.register(authRoute, { prefix: '/api/v1/auth' });
   return app;
 };

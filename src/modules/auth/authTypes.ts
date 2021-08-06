@@ -7,3 +7,10 @@ export type RegisterRequest = FastifyRequest<{
     password: string;
   };
 }>;
+
+export type LoginRequest = FastifyRequest<{
+  Body: {
+    username: string;
+    password: string;
+  };
+}>;

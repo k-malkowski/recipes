@@ -2,7 +2,7 @@ export const registerOptions = {
   schema: {
     description: 'Add user',
     summary: 'add new user',
-    tags: ['users'],
+    tags: ['auth'],
     body: {
       type: 'object',
       required: ['username', 'password', 'email'],
@@ -39,7 +39,69 @@ export const registerOptions = {
         },
       },
       409: {
+        description: 'Conflict',
+        type: 'object',
+        properties: {
+          message: { type: 'string' },
+          error: { type: 'string' },
+          statusCode: { type: 'number' },
+        },
+      },
+    },
+  },
+};
+
+export const loginOptions = {
+  schema: {
+    description: 'Login user',
+    summary: 'login',
+    tags: ['auth'],
+    body: {
+      type: 'object',
+      required: ['username', 'password'],
+      properties: {
+        username: {
+          type: 'string',
+          minLength: 3,
+          maxLength: 30,
+          example: 'johndoe',
+        },
+        password: {
+          type: 'string',
+          minLength: 8,
+          maxLength: 32,
+          example: 'qwerqwer',
+        },
+      },
+    },
+    response: {
+      200: {
+        description: 'Successful response',
+        type: 'object',
+        properties: {
+          accessToken: { type: 'string' },
+        },
+      },
+      400: {
         description: 'Bad request: validation error',
+        type: 'object',
+        properties: {
+          statusCode: { type: 'number' },
+          message: { type: 'string' },
+          error: { type: 'string' },
+        },
+      },
+      401: {
+        description: 'Unauthorized: wrong username or password',
+        type: 'object',
+        properties: {
+          message: { type: 'string' },
+          error: { type: 'string' },
+          statusCode: { type: 'number' },
+        },
+      },
+      403: {
+        description: 'Forbidden',
         type: 'object',
         properties: {
           message: { type: 'string' },
