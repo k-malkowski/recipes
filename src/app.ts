@@ -1,13 +1,15 @@
 import fastify from 'fastify';
 import fastifySwagger from 'fastify-swagger';
 import fastifyCors from 'fastify-cors';
-import fastifyJWT from 'fastify-jwt';
 import { authRoute } from './modules/auth/authRoute';
+import { recipesRoute } from './modules/recipes/recipesRoute';
+import { authPlugin } from './plugins/auth/authPlugin';
 
 export const build = (opts = {}) => {
   const app = fastify(opts);
   app.register(fastifySwagger, {
     routePrefix: '/swagger',
+    exposeRoute: true,
     swagger: {
       info: {
         title: 'Recipes',
@@ -18,19 +20,23 @@ export const build = (opts = {}) => {
       schemes: ['http'],
       consumes: ['application/json'],
       produces: ['application/json'],
+      securityDefinitions: {
+        apiKey: {
+          type: 'apiKey',
+          name: 'Authorization',
+          in: 'header',
+        },
+      },
     },
     uiConfig: {
-      docExpansion: 'full',
       deepLinking: false,
     },
     staticCSP: true,
     transformStaticCSP: (header) => header,
-    exposeRoute: true,
   });
   app.register(fastifyCors, { origin: false });
-  app.register(fastifyJWT, {
-    secret: 'supersecret',
-  });
+  app.register(authPlugin);
   app.register(authRoute, { prefix: '/api/v1/auth' });
+  app.register(recipesRoute, { prefix: '/api/v1/recipes' });
   return app;
 };

@@ -34,7 +34,9 @@ export const login = async (req: LoginRequest, reply: FastifyReply) => {
     });
   }
   if (foundUser && bcrypt.compareSync(password, foundUser.password)) {
-    const accessToken = await reply.jwtSign({ uuid: foundUser.uuid });
+    const accessToken = await reply.jwtSign({
+      uuid: foundUser.uuid,
+    });
     reply.status(200).send({
       accessToken,
     });
