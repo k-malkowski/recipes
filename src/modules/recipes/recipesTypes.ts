@@ -9,7 +9,10 @@ export type AddRecipeRequest = FastifyRequest<{
       amount: string;
     }[];
   };
-  user: {
-    uuid: string;
+}>;
+
+export type GetRecipesRequest = FastifyRequest<{
+  Querystring: {
+    includeIngredients: boolean;
   };
 }>;

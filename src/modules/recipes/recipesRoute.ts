@@ -1,6 +1,6 @@
 import { FastifyPluginCallback } from 'fastify';
-import { addRecipe } from './recipesService';
-import { addRecipeOptions } from './recipesSchema';
+import { addRecipe, findRecipes } from './recipesService';
+import { addRecipeOptions, getRecipesOptions } from './recipesSchema';
 
 export const recipesRoute: FastifyPluginCallback = (fastify, _, done) => {
   fastify.post(
@@ -8,5 +8,6 @@ export const recipesRoute: FastifyPluginCallback = (fastify, _, done) => {
     { ...addRecipeOptions, preValidation: [fastify.authenticate] },
     addRecipe
   );
+  fastify.get('/', { ...getRecipesOptions, preValidation: [fastify.authenticate] }, findRecipes);
   done();
 };

@@ -29,22 +29,20 @@ export const addRecipeOptions = {
                 type: 'string',
                 minLength: 1,
                 maxLength: 50,
-                example: 'jajko'
+                example: 'jajko',
               },
               amount: {
                 type: 'string',
                 minLength: 1,
                 maxLength: 30,
-                example: '5'
-              }
-            }
-          }
-        }
+                example: '5',
+              },
+            },
+          },
+        },
       },
     },
-    security: [
-      { apiKey: [] }
-    ],
+    security: [{ apiKey: [] }],
     response: {
       201: {
         description: 'Successful response',
@@ -61,6 +59,42 @@ export const addRecipeOptions = {
           statusCode: { type: 'number' },
           message: { type: 'string' },
           error: { type: 'string' },
+        },
+      },
+      403: {
+        description: 'Forbidden',
+        type: 'object',
+        properties: {
+          message: { type: 'string' },
+          error: { type: 'string' },
+          statusCode: { type: 'number' },
+        },
+      },
+    },
+  },
+};
+
+export const getRecipesOptions = {
+  schema: {
+    description: 'get recipes',
+    summary: 'get recipes',
+    tags: ['recipes'],
+    security: [{ apiKey: [] }],
+    querystring: {
+      type: 'object',
+      required: ['includeIngredients'],
+      properties: {
+        includeIngredients: {
+          type: 'boolean',
+        },
+      },
+    },
+    response: {
+      200: {
+        description: 'Successful response',
+        type: 'object',
+        properties: {
+          results: { type: 'array' },
         },
       },
       403: {
