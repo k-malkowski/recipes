@@ -8,7 +8,6 @@ export const addRecipe = async (req: AddRecipeRequest, reply: FastifyReply) => {
   const recipeData = {
     user: {
       connect: {
-        // @ts-ignore
         uuid: user.uuid,
       },
     },
@@ -32,13 +31,11 @@ export const findRecipes = async (
   if (user) {
     if (req.query.includeIngredients) {
       reply.status(200).send({
-        // @ts-ignore
         results: await recipesRepository.findManyWithIngredients(user.uuid),
       });
     } else {
       reply
         .status(200)
-        // @ts-ignore
         .send({ results: await recipesRepository.findMany(user.uuid) });
     }
   }

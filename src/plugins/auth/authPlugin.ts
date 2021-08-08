@@ -5,6 +5,9 @@ import { FastifyReply, FastifyRequest } from 'fastify';
 export const authPlugin = fp(async (fastify) => {
   fastify.register(fastifyJWT, {
     secret: 'supersecret',
+    formatUser: (payload) => ({
+      uuid: payload.uuid,
+    }),
   });
 
   fastify.decorate(
