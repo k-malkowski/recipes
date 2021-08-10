@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  recipes_db:
+    container_name: "recipes_db"
+    image: postgres:13.1-alpine
+    ports:
+      - "${RECIPES_DB_PORT}:${RECIPES_DB_PORT}"
+    environment:
+      - POSTGRES_USER=${RECIPES_DB_USERNAME}
+      - POSTGRES_PASSWORD=${RECIPES_DB_PASSWORD}
+      - POSTGRES_DB=${RECIPES_DB_NAME}
