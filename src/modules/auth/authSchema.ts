@@ -112,3 +112,38 @@ export const loginOptions = {
     },
   },
 };
+
+export const activateOptions = {
+  schema: {
+    description: 'Activate user',
+    summary: 'activate user',
+    tags: ['auth'],
+    params: {
+      type: 'object',
+      properties: {
+        uuid: {
+          type: 'string',
+          description: 'activation uuid',
+        },
+      },
+    },
+    response: {
+      200: {
+        description: 'Successful response',
+        type: 'object',
+        properties: {
+          message: { type: 'string' },
+        },
+      },
+      410: {
+        description: 'Activation link expired',
+        type: 'object',
+        properties: {
+          message: { type: 'string' },
+          error: { type: 'string' },
+          statusCode: { type: 'number' },
+        },
+      },
+    },
+  },
+};

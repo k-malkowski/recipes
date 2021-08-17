@@ -3,9 +3,16 @@ import { Prisma, PrismaClient, User } from '@prisma/client';
 const prisma = new PrismaClient();
 
 export default {
-  async add(userData: Prisma.UserCreateInput): Promise<User> {
+  async add(userData: Prisma.UserCreateInput, expiresAt: Date): Promise<User> {
     return prisma.user.create({
-      data: userData,
+      data: {
+        ...userData,
+        activation: {
+          create: {
+            expiresAt,
+          },
+        },
+      },
     });
   },
   async findByUsername(username: string): Promise<User | null> {
@@ -19,6 +26,13 @@ export default {
     return prisma.user.findUnique({
       where: {
         email,
+      },
+    });
+  },
+  async delete(userUuid: string): Promise<User> {
+    return prisma.user.delete({
+      where: {
+        uuid: userUuid,
       },
     });
   },

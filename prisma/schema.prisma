@@ -10,6 +10,11 @@ generator client {
   provider = "prisma-client-js"
 }
 
+enum Status {
+    ACTIVATED
+    PENDING
+}
+
 model User {
   uuid String @id @default(uuid())
   username String @unique
@@ -17,7 +22,17 @@ model User {
   email     String @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  status Status @default(PENDING)
   recipes   Recipe[]
+  activation Activation?
+}
+
+model Activation {
+  uuid String @id @default(uuid())
+  expiresAt DateTime
+  status Status @default(PENDING)
+  user  User    @relation(fields: [userUuid], references: [uuid])
+  userUuid String
 }
 
 model Recipe {

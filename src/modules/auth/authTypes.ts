@@ -14,3 +14,9 @@ export type LoginRequest = FastifyRequest<{
     password: string;
   };
 }>;
+
+export type ActivateRequest = FastifyRequest<{
+  Params: {
+    uuid: string;
+  };
+}>;
