@@ -55,7 +55,6 @@ export const register = (fastify: FastifyInstance) => {
       });
     }
   };
-};
 
 export const login = async (req: LoginRequest, reply: FastifyReply) => {
   const { username, password } = req.body;

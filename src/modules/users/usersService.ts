@@ -17,4 +17,3 @@ export const findUser = async (username: string) =>
 
 export const deleteUser = async (userUuid: string) =>
   usersRepository.delete(userUuid);
-
