@@ -1,9 +1,12 @@
-import { Prisma, PrismaClient, User } from '@prisma/client';
+import { Prisma, PrismaClient, User, Activation } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
 export default {
-  async add(userData: Prisma.UserCreateInput, expiresAt: Date): Promise<User> {
+  async add(
+    userData: Prisma.UserCreateInput,
+    expiresAt: Date
+  ): Promise<User & { activation: Activation | null }> {
     return prisma.user.create({
       data: {
         ...userData,
@@ -12,6 +15,9 @@ export default {
             expiresAt,
           },
         },
+      },
+      include: {
+        activation: true,
       },
     });
   },

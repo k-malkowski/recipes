@@ -1,6 +1,8 @@
 import fp from 'fastify-plugin';
 import fastifySwagger from 'fastify-swagger';
 import fastifyCors from 'fastify-cors';
+// @ts-ignore
+import fastifyMailer from 'fastify-mailer';
 import { authPlugin } from './plugins/auth/authPlugin';
 
 export const plugins = fp(async (fastify) => {
@@ -33,4 +35,17 @@ export const plugins = fp(async (fastify) => {
   });
   fastify.register(fastifyCors, { origin: false });
   fastify.register(authPlugin);
+  fastify.register(fastifyMailer, {
+    defaults: { from: 'Recipes <testfastifymailer@gmail.com>' },
+    transport: {
+      service: 'gmail',
+      host: 'smtp.gmail.com',
+      port: 465,
+      secure: true,
+      auth: {
+        user: process.env.MAILER_USER,
+        pass: process.env.MAILER_PASSWORD,
+      },
+    },
+  });
 });
